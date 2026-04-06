@@ -29,11 +29,11 @@ let sortMode = 'nearest';
 
 // ── Marker data ───────────────────────────────────────────────────
 let markers = [
-  { id:'1', title:'Battle of Bull Run', subtitle:'First major land battle of the Civil War', body:'On July 21, 1861, Union and Confederate forces clashed in the first major land battle of the Civil War near Manassas, Virginia. Confederate General Thomas J. Jackson earned the nickname "Stonewall" here. The Union army was routed and fled back toward Washington, demonstrating the war would not end quickly.', lat:38.8151, lng:-77.5219, themes:['wars-military'], physical_type:'battlefield', era_start:1861, era_end:1861, tags:['civil war','battle','stonewall jackson','union','confederate'], people:['Thomas J. Jackson'], condition:'Good', status:'approved', submittedBy:'admin', dateSubmitted:'2024-01-15', sources:['https://www.nps.gov/mana/index.htm'], address:'Manassas, Virginia', visits:142 },
+  { id:'1', title:'Battle of Bull Run', subtitle:'First major land battle of the Civil War', body:'On July 21, 1861, Union and Confederate forces clashed in the first major land battle of the Civil War near Manassas, Virginia. Confederate General Thomas J. Jackson earned the nickname "Stonewall" here. The Union army was routed and fled back toward Washington, demonstrating the war would not end quickly.', lat:38.8151, lng:-77.5219, themes:['wars-military'], physical_type:'battlefield', era_start:1861, era_end:1861, tags:['civil war','battle','stonewall jackson','union','confederate'], people:['Thomas J. Jackson'], condition:'Good', status:'approved', submittedBy:'admin', dateSubmitted:'2024-01-15', sources:['https://www.nps.gov/mana/index.htm'], address:'Manassas, Virginia', visits:142, access_types:['parking','walking'], access_notes:'Large NPS visitor center parking lot on Henry Hill — free, open year round. The battlefield monument is 0.3 miles on foot from the main lot and clearly visible from the trail.' },
   { id:'2', title:'Pohick Church', subtitle:'Colonial parish church of George Washington', body:"Pohick Church, built 1769–1774, was the colonial parish church of George Washington and George Mason. Washington served on the vestry and helped select its location. The church survived the Civil War, though it was used as a stable by Union troops. It remains an active Episcopal congregation today.", lat:38.6868, lng:-77.2382, themes:['colonial-settlement','architecture-places'], physical_type:'building', era_start:1769, era_end:1774, tags:['colonial','church','founding era'], people:['George Washington','George Mason'], condition:'Good', status:'approved', submittedBy:'history_buff_va', dateSubmitted:'2024-02-03', sources:['https://www.pohick.org'], address:'9301 Richmond Hwy, Lorton, VA', visits:87 },
   { id:'3', title:'Occoquan Mill Town', subtitle:'Historic grist mill community, est. 1759', body:'John Ballendine established a grist mill here in 1759, one of the earliest industrial sites in the region. The area was notable during the Civil War and later became home to the Occoquan Workhouse, where suffragists were imprisoned in 1917.', lat:38.6837, lng:-77.2627, themes:['industry-commerce','social-movements'], physical_type:'plaque', era_start:1759, era_end:1917, tags:['mill','industry','suffrage','women'], people:[], condition:'Good', status:'approved', submittedBy:'local_historian', dateSubmitted:'2024-02-18', sources:[], address:'Occoquan, Virginia', visits:63 },
   { id:'4', title:'Dogan House', subtitle:'Witness to two battles at Bull Run', body:'The Dogan House stood at a crossroads near Groveton and witnessed both battles of Bull Run in 1861 and 1862. The farmstead changed hands multiple times. Preserved within Manassas National Battlefield Park.', lat:38.8224, lng:-77.5401, themes:['wars-military','architecture-places'], physical_type:'building', era_start:1861, era_end:1862, tags:['civil war','battle','farmstead','union','confederate'], people:[], condition:'Good', status:'approved', submittedBy:'battlefield_walker', dateSubmitted:'2024-03-01', sources:['https://www.nps.gov/mana/index.htm'], address:'Manassas National Battlefield Park, VA', visits:51 },
-  { id:'5', title:"Merrimac Farm", subtitle:"Site of Mosby's Rangers operations", body:"This property lies within Mosby's Confederacy, where Colonel John S. Mosby's 43rd Battalion Virginia Cavalry conducted guerrilla raids against Union supply lines throughout 1863–1865.", lat:38.7589, lng:-77.5812, themes:['wars-military'], physical_type:'plaque', era_start:1863, era_end:1865, tags:['civil war','confederate','guerrilla warfare'], people:['John S. Mosby'], condition:'Fair', status:'approved', submittedBy:'mosby_trail', dateSubmitted:'2024-03-14', sources:[], address:'Nokesville, Virginia', visits:29 },
+  { id:'5', title:"Merrimac Farm", subtitle:"Site of Mosby's Rangers operations", body:"This property lies within Mosby's Confederacy, where Colonel John S. Mosby's 43rd Battalion Virginia Cavalry conducted guerrilla raids against Union supply lines throughout 1863–1865.", lat:38.7589, lng:-77.5812, themes:['wars-military'], physical_type:'plaque', era_start:1863, era_end:1865, tags:['civil war','confederate','guerrilla warfare'], people:['John S. Mosby'], condition:'Fair', status:'approved', submittedBy:'mosby_trail', dateSubmitted:'2024-03-14', sources:[], address:'Nokesville, Virginia', visits:29, access_types:['roadside','seasonal'], access_notes:'Marker sits on the gravel shoulder of Merrimac Farm Rd heading east. No dedicated parking — pull off carefully on the right. Area can be muddy after rain; best visited spring through fall.' },
   { id:'6', title:'Bristoe Station', subtitle:'Site of Confederate defeat, October 1863', body:"On October 14, 1863, A.P. Hill's Confederate corps attacked Union forces under G.K. Warren near Bristoe Station. The poorly executed attack resulted in heavy Confederate casualties.", lat:38.7234, lng:-77.5456, themes:['wars-military'], physical_type:'plaque', era_start:1863, era_end:1863, tags:['civil war','battle','union','confederate'], people:['A.P. Hill','G.K. Warren'], condition:'Good', status:'approved', submittedBy:'cwbuff1863', dateSubmitted:'2024-04-02', sources:[], address:'Bristow, Virginia', visits:44 },
   { id:'7', title:'Unknown Roadside Marker', subtitle:'Community stub — help document this marker', body:'', lat:38.7912, lng:-77.4103, themes:[], physical_type:null, era_start:null, era_end:null, tags:[], people:[], condition:'Unknown', status:'stub', submittedBy:null, dateSubmitted:null, sources:[], address:'Haymarket, Virginia', visits:0 },
   { id:'p1', title:'Unverified: Old Stone Bridge', subtitle:'Submitted by community — pending review', body:'A pre-Civil War stone bridge and key crossing point during the First Battle of Bull Run. Union forces used it during their retreat on July 21, 1861.', lat:38.8190, lng:-77.5280, themes:['wars-military','architecture-places'], physical_type:'bridge', era_start:1861, era_end:1861, tags:['civil war','union','infrastructure'], people:[], condition:'Fair', status:'pending', submittedBy:'bridge_explorer', dateSubmitted:'2024-05-10', sources:[], address:'Near Manassas, Virginia', visits:0 },
@@ -338,10 +338,26 @@ function openDetail(id){
           <div class="detail-divider"></div>
           <div class="detail-section-label">Tags</div>
           <div class="tags-wrap">${m.tags.map(t=>`<span class="tag-pill" onclick="filterByTag('${t}')">${t}</span>`).join('')}</div>`:''}
+        ${(m.access_notes||(m.access_types&&m.access_types.length))?`
+          <div class="detail-divider"></div>
+          <div class="detail-section-label">Getting there</div>
+          ${m.access_types&&m.access_types.length?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;">${m.access_types.map(t=>`<span style="font-size:10px;padding:3px 9px;border-radius:20px;background:var(--stone);border:0.5px solid var(--border2);color:var(--ink2);">${t}</span>`).join('')}</div>`:''}
+          ${m.access_notes?`<div class="detail-text">${m.access_notes}</div>`:''}
+        `:''}
         ${m.sources&&m.sources.length?`
           <div class="detail-divider"></div>
           <div class="detail-section-label">Sources</div>
           ${m.sources.map(s=>`<div style="font-size:11px;color:var(--rust);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:3px;">${s}</div>`).join('')}`:''}
+        ${(m.access_types&&m.access_types.length)||(m.access_notes)?`
+          <div class="detail-divider"></div>
+          <div class="detail-access-block">
+            <div class="detail-access-header">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Visiting this marker
+            </div>
+            ${m.access_types&&m.access_types.length?`<div class="detail-access-chips">${m.access_types.map(t=>`<span class="detail-access-chip">${t.replace('-',' ')}</span>`).join('')}</div>`:''}
+            ${m.access_notes?`<div class="detail-access-notes">${m.access_notes}</div>`:''}
+          </div>`:''}
         <div class="detail-divider"></div>
         <div class="detail-section-label">Contributor</div>
         <div style="font-size:13px;color:var(--ink3)">${m.submittedBy||'—'} · ${m.dateSubmitted||''}</div>
@@ -380,36 +396,127 @@ function closeDetail(){
 
 // ── Submit form ───────────────────────────────────────────────────
 let formThemes=[];
+let formLat=null, formLng=null;
+let formMap=null, formPin=null;
+let advancedOpen=false;
 
 function renderSubmitForm(){
+  // Theme grid
   const tg=document.getElementById('category-grid');
   if(tg) tg.innerHTML=THEMES.map(t=>`<button class="cat-option ${formThemes.includes(t.id)?'selected':''}" onclick="toggleFormTheme('${t.id}')"><div class="cat-swatch" style="background:${t.color}"></div>${t.label}</button>`).join('');
+  // Physical type dropdown
   const ps=document.getElementById('form-physical-type');
   if(ps&&ps.options.length<=1) PHYSICAL_TYPES.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.label;ps.appendChild(o);});
+  // Wire up badge update on all advanced inputs
+  ['form-subtitle','form-people','form-tags','form-access-notes','form-source','form-era-start','form-era-end'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&!el.dataset.badgeWired){el.addEventListener('input',updateAdvancedBadge);el.dataset.badgeWired='1';}
+  });
+  ['form-physical-type','form-condition'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&!el.dataset.badgeWired){el.addEventListener('change',updateAdvancedBadge);el.dataset.badgeWired='1';}
+  });
+  // Init map picker if not yet created
+  initFormMap();
+}
+
+function initFormMap(){
+  if(formMap) return; // already initialised
+  const canvas=document.getElementById('form-map-canvas');
+  if(!canvas||typeof google==='undefined') return;
+  // Start at current position or default to Virginia demo area
+  const defaultPos={lat:38.76,lng:-77.45};
+  formMap=new google.maps.Map(canvas,{
+    center:defaultPos, zoom:14, styles:MAP_STYLES,
+    mapTypeControl:false, streetViewControl:false,
+    fullscreenControl:false, zoomControl:true,
+    gestureHandling:'greedy',
+  });
+  formPin=new google.maps.Marker({
+    position:defaultPos, map:formMap, draggable:true,
+    icon:{url:makeSvgPin('#B34A2A',false),scaledSize:new google.maps.Size(28,40),anchor:new google.maps.Point(14,40)},
+  });
+  formLat=defaultPos.lat; formLng=defaultPos.lng;
+  updateCoordDisplay(defaultPos.lat,defaultPos.lng);
+  // Update coords when pin is dragged
+  formPin.addListener('dragend',()=>{
+    const pos=formPin.getPosition();
+    formLat=pos.lat(); formLng=pos.lng();
+    updateCoordDisplay(formLat,formLng);
+  });
+  // Also allow tapping map to move pin
+  formMap.addListener('click',e=>{
+    formPin.setPosition(e.latLng);
+    formLat=e.latLng.lat(); formLng=e.latLng.lng();
+    updateCoordDisplay(formLat,formLng);
+  });
+  // Try to centre on user's actual location
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(p=>{
+      const pos={lat:p.coords.latitude,lng:p.coords.longitude};
+      formMap.setCenter(pos); formPin.setPosition(pos);
+      formLat=pos.lat; formLng=pos.lng;
+      updateCoordDisplay(formLat,formLng);
+    },()=>{}); // silently fall back to default on error
+  }
+}
+
+function updateCoordDisplay(lat,lng){
+  const el=document.getElementById('form-coord-text');
+  if(el) el.textContent=`${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+}
+
+function toggleAdvanced(){
+  advancedOpen=!advancedOpen;
+  const body=document.getElementById('advanced-body');
+  const chevron=document.getElementById('advanced-chevron');
+  if(body) body.classList.toggle('open',advancedOpen);
+  if(chevron) chevron.classList.toggle('open',advancedOpen);
+  if(advancedOpen&&formMap) google.maps.event.trigger(formMap,'resize');
+}
+
+function updateAdvancedBadge(){
+  const fields=['form-subtitle','form-people','form-tags','form-access-notes','form-source'];
+  const selects=['form-physical-type','form-condition'];
+  const era=document.getElementById('form-era-start')?.value;
+  const accessChips=document.querySelectorAll('.access-chip.active').length;
+  let count=0;
+  fields.forEach(id=>{if(document.getElementById(id)?.value?.trim()) count++;});
+  selects.forEach(id=>{if(document.getElementById(id)?.value) count++;});
+  if(era) count++;
+  count+=accessChips;
+  const badge=document.getElementById('advanced-count');
+  if(badge){
+    badge.style.display=count?'inline':'none';
+    badge.textContent=count+' filled';
+  }
+}
+
+function toggleAccessChip(btn){
+  btn.classList.toggle('active');
+  updateAdvancedBadge();
+}
+
+function getActiveAccessTypes(){
+  return [...document.querySelectorAll('.access-chip.active')].map(b=>b.dataset.val);
 }
 function toggleFormTheme(id){
   if(formThemes.includes(id)) formThemes=formThemes.filter(x=>x!==id);
   else formThemes.push(id);
   renderSubmitForm();
 }
-function pickLocation(){
-  const btn=document.getElementById('location-btn'),lbl=document.getElementById('location-label');
-  lbl.textContent='Acquiring GPS…';
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(p=>{lbl.textContent=`${p.coords.latitude.toFixed(4)}, ${p.coords.longitude.toFixed(4)}`;btn.classList.add('set');},()=>{lbl.textContent='Could not get location';});
-  } else {
-    setTimeout(()=>{lbl.textContent='38.7912, -77.4103 (simulated)';btn.classList.add('set');},600);
-  }
-}
+// pickLocation replaced by map picker (initFormMap)
 function submitMarker(){
   const title=document.getElementById('form-title')?.value?.trim();
-  if(!title){showToast('Please enter a marker title');return;}
+  if(!title){showToast('Please add a marker title');return;}
   if(!formThemes.length){showToast('Please select at least one theme');return;}
+  const accessTypes=getActiveAccessTypes();
+  const accessNotes=document.getElementById('form-access-notes')?.value||'';
   const m={
     id:'new-'+Date.now(),title,
     subtitle:document.getElementById('form-subtitle')?.value||'Community submission',
     body:document.getElementById('form-body')?.value||'',
-    lat:38.7912,lng:-77.4103,
+    lat:formLat||38.7912, lng:formLng||-77.4103,
     themes:[...formThemes],
     physical_type:document.getElementById('form-physical-type')?.value||null,
     era_start:parseInt(document.getElementById('form-era-start')?.value)||null,
@@ -417,6 +524,8 @@ function submitMarker(){
     tags:(document.getElementById('form-tags')?.value||'').split(',').map(t=>t.trim().toLowerCase()).filter(Boolean),
     people:(document.getElementById('form-people')?.value||'').split(',').map(p=>p.trim()).filter(Boolean),
     condition:document.getElementById('form-condition')?.value||'Unknown',
+    access_types:accessTypes,
+    access_notes:accessNotes,
     status:'pending',submittedBy:'Demo User',
     dateSubmitted:new Date().toISOString().split('T')[0],
     sources:[],address:'Location pending',visits:0,
@@ -424,10 +533,23 @@ function submitMarker(){
   markers.push(m);
   if(gmap) placeGoogleMarkers();
   showToast('Submitted! Entering peer review queue.');
-  ['form-title','form-subtitle','form-body','form-era-start','form-era-end','form-tags','form-people','form-source'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  // Reset all fields
+  ['form-title','form-subtitle','form-body','form-era-start','form-era-end',
+   'form-tags','form-people','form-source','form-access-notes'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value='';
+  });
+  document.querySelectorAll('.access-chip.active').forEach(c=>c.classList.remove('active'));
+  updateAdvancedBadge();
+  const condEl=document.getElementById('form-condition');if(condEl)condEl.value='';
+  const physEl=document.getElementById('form-physical-type');if(physEl)physEl.value='';
   formThemes=[];
-  document.getElementById('location-label').textContent='Tap to use current GPS location';
-  document.getElementById('location-btn').classList.remove('set');
+  // Close advanced section
+  advancedOpen=false;
+  const body=document.getElementById('advanced-body');
+  const chevron=document.getElementById('advanced-chevron');
+  if(body) body.classList.remove('open');
+  if(chevron) chevron.classList.remove('open');
+  // Re-render theme grid
   renderSubmitForm();
   setTimeout(()=>switchTab('review'),700);
 }
