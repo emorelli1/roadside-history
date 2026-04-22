@@ -319,6 +319,73 @@ textarea.form-input{resize:vertical;min-height:80px;line-height:1.6;}
 .detail-access-chip{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;background:white;border:0.5px solid var(--border2);color:var(--ink2);text-transform:capitalize;}
 .detail-access-notes{font-size:12px;color:var(--ink2);line-height:1.65;}
 
+/* ── Map mode bar ── */
+.map-mode-bar{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:20;display:flex;background:white;border-radius:20px;border:0.5px solid var(--border2);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.12);}
+.map-mode-btn{display:flex;align-items:center;gap:5px;padding:7px 14px;font-size:12px;font-weight:500;color:var(--ink2);background:transparent;border:none;cursor:pointer;font-family:var(--sans);transition:all 0.15s;white-space:nowrap;}
+.map-mode-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.map-mode-btn.active{background:var(--ink);color:white;}
+.map-mode-btn.active svg{stroke:white;}
+.premium-badge{background:var(--rust);color:white;font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;letter-spacing:0.04em;text-transform:uppercase;margin-left:3px;}
+
+/* ── Route overlay ── */
+.route-overlay{position:absolute;bottom:0;left:0;right:0;z-index:30;display:flex;flex-direction:column;pointer-events:none;}
+.route-overlay>*{pointer-events:auto;}
+
+/* Route header */
+.route-header{background:white;border-radius:var(--radius) var(--radius) 0 0;border-top:0.5px solid var(--border);border-left:0.5px solid var(--border);border-right:0.5px solid var(--border);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;}
+.route-header-left{flex:1;min-width:0;}
+.route-name{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.route-stats{font-size:11px;color:var(--ink3);}
+.route-close-btn{width:30px;height:30px;border-radius:50%;background:var(--stone);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;flex-shrink:0;}
+.route-close-btn svg{width:14px;height:14px;stroke:var(--ink2);fill:none;stroke-width:2;stroke-linecap:round;}
+
+/* Route stops */
+.route-stops-wrap{background:white;border-left:0.5px solid var(--border);border-right:0.5px solid var(--border);max-height:180px;overflow-y:auto;}
+.route-stops-empty{display:flex;align-items:center;gap:8px;padding:14px 14px;color:var(--ink3);font-size:12px;}
+.route-stops-empty svg{width:16px;height:16px;stroke:var(--ink3);fill:none;stroke-width:1.8;stroke-linecap:round;flex-shrink:0;}
+.route-stop-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:0.5px solid var(--border);}
+.route-stop-item:last-child{border-bottom:none;}
+.route-stop-number{width:22px;height:22px;border-radius:50%;background:var(--rust);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.route-stop-info{flex:1;min-width:0;}
+.route-stop-title{font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.route-stop-meta{font-size:11px;color:var(--ink3);margin-top:1px;}
+.route-stop-remove{width:24px;height:24px;border-radius:50%;background:var(--stone);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;flex-shrink:0;}
+.route-stop-remove svg{width:11px;height:11px;stroke:var(--ink3);fill:none;stroke-width:2.5;stroke-linecap:round;}
+.route-stop-connector{display:flex;align-items:center;gap:10px;padding:0 14px;}
+.route-stop-connector-line{width:1px;height:16px;background:var(--stone3);margin-left:10px;}
+.route-stop-connector-meta{font-size:10px;color:var(--ink3);margin-left:12px;}
+
+/* Route action buttons */
+.route-actions{background:white;border-top:0.5px solid var(--border);border-left:0.5px solid var(--border);border-right:0.5px solid var(--border);padding:10px 12px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;}
+.route-actions::-webkit-scrollbar{display:none;}
+.route-action-btn{display:flex;align-items:center;gap:5px;padding:8px 13px;border-radius:20px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:var(--sans);white-space:nowrap;transition:all 0.15s;flex-shrink:0;}
+.route-action-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.route-action-random{background:var(--stone2);color:var(--ink2);border:0.5px solid var(--border2);}
+.route-action-random:hover{background:var(--stone3);}
+.route-action-share{background:var(--stone2);color:var(--ink2);border:0.5px solid var(--border2);}
+.route-action-save{background:var(--stone2);color:var(--ink2);border:0.5px solid var(--border2);}
+.route-action-navigate{background:var(--rust);color:white;}
+.route-action-navigate:hover{background:var(--rust2);}
+
+/* Route mode — map pin selection ring */
+.map-pin-selectable{cursor:pointer;}
+
+/* ── Premium modal ── */
+.premium-modal-bg{position:fixed;inset:0;background:rgba(28,28,26,0.55);z-index:500;display:flex;align-items:flex-end;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0);opacity:0;transition:opacity 0.2s ease;}
+.premium-modal-bg.visible{opacity:1;}
+.premium-modal{background:white;border-radius:var(--radius) var(--radius) 0 0;padding:28px 24px 32px;width:100%;max-width:480px;text-align:center;transform:translateY(20px);transition:transform 0.25s ease;}
+.premium-modal-bg.visible .premium-modal{transform:translateY(0);}
+.premium-modal-icon{width:56px;height:56px;border-radius:50%;background:var(--rust-lt);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+.premium-modal-icon svg{width:24px;height:24px;stroke:var(--rust);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.premium-modal-title{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.premium-modal-body{font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:22px;}
+.premium-modal-actions{display:flex;flex-direction:column;gap:9px;}
+.premium-modal-cta{width:100%;padding:13px;background:var(--rust);color:white;font-size:14px;font-weight:700;border-radius:var(--radius-sm);border:none;cursor:pointer;font-family:var(--sans);}
+.premium-modal-dismiss{width:100%;padding:11px;background:transparent;color:var(--ink3);font-size:13px;border:none;cursor:pointer;font-family:var(--sans);}
+
+/* Route mode — selectable pins glow */
+@keyframes pin-pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+
 /* Toast */
 .toast{position:fixed;bottom:calc(var(--bottom-h)+14px);left:50%;transform:translateX(-50%);background:var(--ink);color:white;border-radius:var(--radius-sm);padding:9px 16px;font-size:13px;z-index:999;white-space:nowrap;animation:toast-in 0.25s ease,toast-out 0.25s ease 2.5s forwards;}
 @keyframes toast-in{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
@@ -352,11 +419,76 @@ textarea.form-input{resize:vertical;min-height:80px;line-height:1.6;}
 
     <!-- MAP -->
     <div id="map-view" class="active">
+
+      <!-- Map mode toggle bar -->
+      <div class="map-mode-bar" id="map-mode-bar">
+        <button class="map-mode-btn active" id="mode-discover" onclick="setMapMode('discover')">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Discover
+        </button>
+        <button class="map-mode-btn" id="mode-route" onclick="setMapMode('route')">
+          <svg viewBox="0 0 24 24"><circle cx="5" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M5 7v3a4 4 0 0 0 4 4h6a4 4 0 0 1 4 4v1"/></svg>
+          Plan a Route
+          <span class="premium-badge">Premium</span>
+        </button>
+      </div>
+
+      <!-- Map canvas -->
       <div id="map-canvas"></div>
       <div class="map-legend" id="map-legend"></div>
-      <button class="map-fab" onclick="switchTab('submit')">
+
+      <!-- Discover mode FAB -->
+      <button class="map-fab" id="map-fab-add" onclick="switchTab('submit')">
         <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </button>
+
+      <!-- Route mode overlay (shown when Plan a Route is active) -->
+      <div class="route-overlay" id="route-overlay" style="display:none">
+
+        <!-- Route builder header -->
+        <div class="route-header">
+          <div class="route-header-left">
+            <div class="route-title-wrap">
+              <div class="route-name" id="route-name">New Route</div>
+              <div class="route-stats" id="route-stats">0 stops · — · —</div>
+            </div>
+          </div>
+          <button class="route-close-btn" onclick="setMapMode('discover')">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <!-- Route stop list -->
+        <div class="route-stops-wrap">
+          <div class="route-stops-empty" id="route-stops-empty">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Tap markers on the map to add stops</span>
+          </div>
+          <div class="route-stops-list" id="route-stops-list"></div>
+        </div>
+
+        <!-- Route action buttons -->
+        <div class="route-actions">
+          <button class="route-action-btn route-action-random" onclick="showPremiumPrompt('random-route')">
+            <svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+            Surprise Me
+          </button>
+          <button class="route-action-btn route-action-share" onclick="showPremiumPrompt('share-route')" id="route-share-btn" style="display:none">
+            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Share
+          </button>
+          <button class="route-action-btn route-action-save" onclick="showPremiumPrompt('save-route')" id="route-save-btn" style="display:none">
+            <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save Route
+          </button>
+          <button class="route-action-btn route-action-navigate" onclick="showPremiumPrompt('navigate-route')" id="route-nav-btn" style="display:none">
+            <svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+            Navigate
+          </button>
+        </div>
+
+      </div>
+
     </div>
 
     <!-- EXPLORE -->
@@ -703,6 +835,21 @@ textarea.form-input{resize:vertical;min-height:80px;line-height:1.6;}
       Profile
     </button>
   </nav>
+
+  <!-- Premium prompt modal -->
+  <div class="premium-modal-bg" id="premium-modal-bg" onclick="closePremiumPrompt()" style="display:none">
+    <div class="premium-modal" onclick="event.stopPropagation()">
+      <div class="premium-modal-icon">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div class="premium-modal-title" id="premium-modal-title">Premium Feature</div>
+      <div class="premium-modal-body" id="premium-modal-body">This feature is available on the premium plan.</div>
+      <div class="premium-modal-actions">
+        <button class="premium-modal-cta" onclick="closePremiumPrompt()">Learn More About Premium</button>
+        <button class="premium-modal-dismiss" onclick="closePremiumPrompt()">Maybe Later</button>
+      </div>
+    </div>
+  </div>
 
   <div id="detail-view">
     <div class="detail-header">

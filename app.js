@@ -50,6 +50,218 @@ let activeTagQuery    = '';
 let searchQuery       = '';
 let filterPanelOpen   = false;
 
+// ── Route state ───────────────────────────────────────────────────
+let mapMode      = 'discover'; // 'discover' | 'route'
+let routeStops   = [];         // ordered array of marker IDs
+let routePolyline = null;      // google.maps.Polyline
+
+// Premium prompt content by feature
+const PREMIUM_CONTENT = {
+  'save-route': {
+    title: 'Save routes with Premium',
+    body:  'Save your routes and pick up where you left off on your next trip. Unlimited saved routes, accessible from any device.',
+  },
+  'share-route': {
+    title: 'Share routes with Premium',
+    body:  'Generate a shareable link anyone can open. Your route, your discoveries — shared in one tap.',
+  },
+  'random-route': {
+    title: 'Surprise Me is a Premium feature',
+    body:  'Let Roadside History plan your trip. Set a time budget and filters — the app builds an optimised route through history near you.',
+  },
+  'navigate-route': {
+    title: 'In-app navigation is Premium',
+    body:  'Stay inside Roadside History the whole drive. The app guides you stop to stop, opening each marker detail automatically when you arrive.',
+  },
+  'default': {
+    title: 'Premium Feature',
+    body:  'This feature is part of the Roadside History premium plan. Unlock all navigation features, offline access, dark mode, and more.',
+  },
+};
+
+function setMapMode(mode) {
+  mapMode = mode;
+
+  const discoverBtn = document.getElementById('mode-discover');
+  const routeBtn    = document.getElementById('mode-route');
+  const overlay     = document.getElementById('route-overlay');
+  const fab         = document.getElementById('map-fab-add');
+
+  if (mode === 'route') {
+    discoverBtn.classList.remove('active');
+    routeBtn.classList.add('active');
+    overlay.style.display = 'flex';
+    if (fab) fab.style.display = 'none';
+    // Resize map so it sits above the overlay
+    if (gmap) google.maps.event.trigger(gmap, 'resize');
+    renderRouteStops();
+  } else {
+    discoverBtn.classList.add('active');
+    routeBtn.classList.remove('active');
+    overlay.style.display = 'none';
+    if (fab) fab.style.display = '';
+    if (gmap) google.maps.event.trigger(gmap, 'resize');
+  }
+}
+
+function addRouteStop(markerId) {
+  if (routeStops.includes(markerId)) {
+    // Already in route — remove it
+    removeRouteStop(markerId);
+    return;
+  }
+  if (routeStops.length >= 10) {
+    showToast('Maximum 10 stops per route in the PoC');
+    return;
+  }
+  routeStops.push(markerId);
+  renderRouteStops();
+  drawRoutePolyline();
+  updateRoutePins();
+}
+
+function removeRouteStop(markerId) {
+  routeStops = routeStops.filter(id => id !== markerId);
+  renderRouteStops();
+  drawRoutePolyline();
+  updateRoutePins();
+}
+
+function renderRouteStops() {
+  const empty    = document.getElementById('route-stops-empty');
+  const list     = document.getElementById('route-stops-list');
+  const stats    = document.getElementById('route-stats');
+  const shareBtn = document.getElementById('route-share-btn');
+  const saveBtn  = document.getElementById('route-save-btn');
+  const navBtn   = document.getElementById('route-nav-btn');
+
+  if (!list) return;
+
+  if (!routeStops.length) {
+    if (empty) empty.style.display = 'flex';
+    list.innerHTML = '';
+    if (stats) stats.textContent = '0 stops · — · —';
+    if (shareBtn) shareBtn.style.display = 'none';
+    if (saveBtn)  saveBtn.style.display  = 'none';
+    if (navBtn)   navBtn.style.display   = 'none';
+    return;
+  }
+
+  if (empty) empty.style.display = 'none';
+  if (shareBtn) shareBtn.style.display = '';
+  if (saveBtn)  saveBtn.style.display  = '';
+  if (navBtn)   navBtn.style.display   = '';
+
+  // Build stop list HTML
+  list.innerHTML = routeStops.map((id, idx) => {
+    const m = markers.find(x => x.id === id);
+    if (!m) return '';
+    const theme = THEMES.find(t => t.id === (m.themes || [])[0]);
+    const connector = idx < routeStops.length - 1
+      ? `<div class="route-stop-connector"><div class="route-stop-connector-line"></div><div class="route-stop-connector-meta">~${estimateDriveTime(id, routeStops[idx+1])}</div></div>`
+      : '';
+    return `
+      <div class="route-stop-item">
+        <div class="route-stop-number">${idx + 1}</div>
+        <div class="route-stop-info">
+          <div class="route-stop-title">${m.title}</div>
+          <div class="route-stop-meta" style="color:${theme ? theme.color : 'var(--ink3)'}">
+            ${theme ? theme.label : 'Undocumented'} · ${m.address}
+          </div>
+        </div>
+        <button class="route-stop-remove" onclick="removeRouteStop('${id}')">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>${connector}`;
+  }).join('');
+
+  // Update stats
+  const totalDist = estimateTotalDistance();
+  const stopWord  = routeStops.length === 1 ? 'stop' : 'stops';
+  if (stats) stats.textContent = `${routeStops.length} ${stopWord} · ${totalDist} · est. driving time varies`;
+}
+
+// Straight-line distance estimate between two marker IDs (km)
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function estimateDriveTime(id1, id2) {
+  const m1 = markers.find(x => x.id === id1);
+  const m2 = markers.find(x => x.id === id2);
+  if (!m1 || !m2) return '—';
+  const km  = haversineKm(m1.lat, m1.lng, m2.lat, m2.lng);
+  const mins = Math.round((km / 60) * 60); // ~60km/h avg
+  return mins < 2 ? '< 2 min' : `~${mins} min`;
+}
+
+function estimateTotalDistance() {
+  if (routeStops.length < 2) return '—';
+  let total = 0;
+  for (let i = 0; i < routeStops.length - 1; i++) {
+    const m1 = markers.find(x => x.id === routeStops[i]);
+    const m2 = markers.find(x => x.id === routeStops[i+1]);
+    if (m1 && m2) total += haversineKm(m1.lat, m1.lng, m2.lat, m2.lng);
+  }
+  const miles = (total * 0.621371).toFixed(1);
+  return `${miles} mi (est.)`;
+}
+
+function drawRoutePolyline() {
+  if (!gmap) return;
+  if (routePolyline) { routePolyline.setMap(null); routePolyline = null; }
+  if (routeStops.length < 2) return;
+
+  const path = routeStops.map(id => {
+    const m = markers.find(x => x.id === id);
+    return m ? { lat: m.lat, lng: m.lng } : null;
+  }).filter(Boolean);
+
+  routePolyline = new google.maps.Polyline({
+    path,
+    geodesic: true,
+    strokeColor: '#B34A2A',
+    strokeOpacity: 0.85,
+    strokeWeight: 3,
+    map: gmap,
+    icons: [{
+      icon: { path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, scale: 3, strokeColor: '#B34A2A', fillColor: '#B34A2A', fillOpacity: 1 },
+      offset: '50%',
+    }],
+  });
+
+  // Fit map to show all stops
+  const bounds = new google.maps.LatLngBounds();
+  path.forEach(p => bounds.extend(p));
+  gmap.fitBounds(bounds, { top: 80, right: 20, bottom: 280, left: 20 });
+}
+
+function updateRoutePins() {
+  // Re-render map pins to show selection state
+  if (gmap) placeGoogleMarkers();
+}
+
+// Premium prompt
+function showPremiumPrompt(feature) {
+  const content = PREMIUM_CONTENT[feature] || PREMIUM_CONTENT['default'];
+  document.getElementById('premium-modal-title').textContent = content.title;
+  document.getElementById('premium-modal-body').textContent  = content.body;
+  const bg = document.getElementById('premium-modal-bg');
+  bg.style.display = 'flex';
+  // Animate in
+  requestAnimationFrame(() => bg.classList.add('visible'));
+}
+
+function closePremiumPrompt() {
+  const bg = document.getElementById('premium-modal-bg');
+  bg.classList.remove('visible');
+  setTimeout(() => { bg.style.display = 'none'; }, 200);
+}
+
 // ── Google Maps ───────────────────────────────────────────────────
 const MAP_STYLES = [
   {elementType:'geometry',stylers:[{color:'#F0EDE6'}]},
@@ -97,10 +309,19 @@ function placeGoogleMarkers(){
     const pin=new google.maps.Marker({
       position:{lat:m.lat,lng:m.lng},map:gmap,title:m.title,
       icon:{url:makeSvgPin(markerPinColor(m),m.status==='stub'),scaledSize:new google.maps.Size(28,40),anchor:new google.maps.Point(14,40)},
-      opacity:inFilter?1:0.2, zIndex:m.status==='stub'?0:inFilter?2:1,
+      opacity: mapMode==='route' ? (routeStops.includes(m.id)?1:0.35) : (inFilter?1:0.2),
+      zIndex: m.status==='stub'?0 : routeStops.includes(m.id)?3 : inFilter?2:1,
     });
     const iw=new google.maps.InfoWindow({content:`<div style="font-family:sans-serif;padding:2px;max-width:180px;"><b style="font-size:13px;color:#1C1C1A">${m.title}</b><br><span style="font-size:11px;color:#8A8A84">${m.subtitle}</span></div>`});
-    pin.addListener('click',()=>{if(openInfoWindow)openInfoWindow.close();iw.open(gmap,pin);openInfoWindow=iw;setTimeout(()=>openDetail(m.id),280);});
+    pin.addListener('click',()=>{
+      if(mapMode === 'route'){
+        // In route mode — tap adds/removes stop, don't open detail
+        addRouteStop(m.id);
+        if(openInfoWindow) openInfoWindow.close();
+        return;
+      }
+      if(openInfoWindow)openInfoWindow.close();iw.open(gmap,pin);openInfoWindow=iw;setTimeout(()=>openDetail(m.id),280);
+    });
     gmapMarkers.push(pin);
   });
 }
