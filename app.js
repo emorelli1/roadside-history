@@ -85,13 +85,13 @@ function setMapMode(mode) {
   const discoverBtn = document.getElementById('mode-discover');
   const routeBtn    = document.getElementById('mode-route');
   const overlay     = document.getElementById('route-overlay');
-  const fab         = document.getElementById('map-fab-add');
+  // FAB removed — Add button is in bottom nav
 
   if (mode === 'route') {
     discoverBtn.classList.remove('active');
     routeBtn.classList.add('active');
     overlay.style.display = 'flex';
-    if (fab) fab.style.display = 'none';
+
     // Resize map so it sits above the overlay
     if (gmap) google.maps.event.trigger(gmap, 'resize');
     renderRouteStops();
@@ -99,7 +99,7 @@ function setMapMode(mode) {
     discoverBtn.classList.add('active');
     routeBtn.classList.remove('active');
     overlay.style.display = 'none';
-    if (fab) fab.style.display = '';
+
     if (gmap) google.maps.event.trigger(gmap, 'resize');
   }
 }
@@ -293,7 +293,7 @@ window.initGoogleMap=function(){
   gmap=new google.maps.Map(document.getElementById('map-canvas'),{
     center:{lat:38.76,lng:-77.45},zoom:11,styles:MAP_STYLES,
     mapTypeControl:false,streetViewControl:false,fullscreenControl:false,
-    zoomControl:true,gestureHandling:'greedy',
+    zoomControl:true,panControl:false,gestureHandling:'greedy',
   });
   placeGoogleMarkers();
   renderLegend();
