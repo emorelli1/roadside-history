@@ -293,8 +293,10 @@ window.initGoogleMap=function(){
   gmap=new google.maps.Map(document.getElementById('map-canvas'),{
     center:{lat:38.76,lng:-77.45},zoom:11,styles:MAP_STYLES,
     mapTypeControl:false,streetViewControl:false,fullscreenControl:false,
-    zoomControl:true,panControl:false,gestureHandling:'greedy',
+    zoomControl:true,panControl:false,rotateControl:false,scaleControl:false,gestureHandling:'greedy',
   });
+  // Force pan control off after init — belt-and-suspenders for async loading
+  gmap.setOptions({panControl:false,rotateControl:false,scaleControl:false});
   placeGoogleMarkers();
   renderLegend();
 };
@@ -669,6 +671,7 @@ function initFormMap(){
     center:defaultPos, zoom:14, styles:MAP_STYLES,
     mapTypeControl:false, streetViewControl:false,
     fullscreenControl:false, zoomControl:true,
+    panControl:false, rotateControl:false, scaleControl:false,
     gestureHandling:'greedy',
   });
   formPin=new google.maps.Marker({
