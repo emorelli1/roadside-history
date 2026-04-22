@@ -328,10 +328,25 @@ function placeGoogleMarkers(){
 function renderLegend(){
   const el=document.getElementById('map-legend'); if(!el) return;
   const usedIds=[...new Set(markers.flatMap(m=>m.themes||[]))];
-  el.innerHTML=usedIds.slice(0,5).map(tid=>{
+  const items = usedIds.slice(0,5).map(tid=>{
     const t=THEMES.find(x=>x.id===tid);
     return t?`<div class="legend-item"><div class="legend-dot" style="background:${t.color}"></div>${t.label}</div>`:'';
-  }).join('')+`<div class="legend-item"><div class="legend-dot" style="background:#D6D0C4;border:0.5px solid #A09A8C"></div>Undocumented</div>`;
+  }).join('') + `<div class="legend-item"><div class="legend-dot" style="background:#D6D0C4;border:0.5px solid #A09A8C"></div>Undocumented</div>`;
+
+  el.innerHTML=`
+    <div class="legend-header">
+      <span class="legend-header-label">Legend</span>
+      <svg class="legend-chevron" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+    </div>
+    <div class="legend-items">${items}</div>`;
+}
+
+let legendCollapsed = false;
+
+function toggleLegend(){
+  legendCollapsed = !legendCollapsed;
+  const el = document.getElementById('map-legend');
+  if(el) el.classList.toggle('collapsed', legendCollapsed);
 }
 
 // ── Tab switching ─────────────────────────────────────────────────
