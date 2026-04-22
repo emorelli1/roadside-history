@@ -362,7 +362,10 @@ function openDetail(id){
         <div class="detail-section-label">Contributor</div>
         <div style="font-size:13px;color:var(--ink3)">${m.submittedBy||'—'} · ${m.dateSubmitted||''}</div>
         <div class="detail-actions">
-          <button class="btn-primary" onclick="showToast('Opening directions…')">Get Directions</button>
+          <button class="btn-primary" onclick="openMapsDirections('${m.id}')">
+            <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-right:5px;vertical-align:middle"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+            Get Directions
+          </button>
           <button class="btn-secondary" onclick="showToast('Marker flagged for review')">Flag</button>
         </div>
         <div class="detail-source">Source: Historical Marker Database (hmdb.org) — placeholder attribution</div>
@@ -602,6 +605,36 @@ function showNearby(){
       switchTab('explore');
     },()=>showToast('Enable location to find nearby markers'));
   } else showToast('Geolocation not supported');
+}
+
+// ── Maps directions ──────────────────────────────────────────────
+function openMapsDirections(id) {
+  const m = markers.find(x => x.id === id);
+  if (!m) { showToast('Marker not found'); return; }
+  if (!m.lat || !m.lng) { showToast('No location data for this marker'); return; }
+
+  const lat = m.lat;
+  const lng = m.lng;
+  const label = encodeURIComponent(m.title);
+
+  // Detect platform and open the appropriate maps app
+  const ua = navigator.userAgent || '';
+  const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  const isAndroid = /Android/.test(ua);
+
+  let url;
+  if (isIOS) {
+    // Apple Maps — opens natively on iOS
+    url = `maps://maps.apple.com/?daddr=${lat},${lng}&q=${label}`;
+  } else if (isAndroid) {
+    // Google Maps on Android — opens app if installed, falls back to browser
+    url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
+  } else {
+    // Desktop — open Google Maps in a new browser tab
+    url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
+  }
+
+  window.open(url, '_blank');
 }
 
 // ── Toast ─────────────────────────────────────────────────────────
